@@ -25,6 +25,22 @@ button { color: inherit; }
 .open-button { display: grid; place-items: center; width: 43px; height: 43px; color: white; background: #2c2c27; border-radius: 50%; transition: transform .2s; }
 .model-card:hover .open-button { transform: translateX(3px); }
 .card-meta { display: flex; gap: 20px; padding: 0 28px 22px; background: #fbfaf7; text-transform: uppercase; color: #8b887e; font-size: 9px; letter-spacing: .15em; }
+.site-footer { width: calc(100% + 10vw); margin: 64px 0 -70px -5vw; padding: 30px 0; border-top: 1px solid #404040; }
+.footer-wrapper { max-width: 710px; margin: 0 auto; padding: 0 30px; }
+.footer-heading { margin: 0 0 15px; color: #bbb; font-size: 18px; font-weight: 400; }
+.footer-col-wrapper { display: flex; color: #999; font-size: 15px; line-height: 1.5; }
+.footer-col { width: calc(50% - 15px); margin-bottom: 15px; padding: 0 15px; }
+.footer-col:first-child { padding-left: 0; padding-right: 15px; }
+.footer-col:last-child { padding-left: 15px; padding-right: 0; }
+.contact-list { margin: 0; padding: 0; list-style: none; }
+.contact-list li { margin: 0; }
+.contact-list a { color: #79b8ff; text-decoration: none; }
+.contact-list a:hover { color: #bbb; text-decoration: none; }
+.contact-list a:hover .username { text-decoration: underline; }
+.svg-icon { width: 1.25em; height: 1.25em; display: inline-block; margin-right: 4px; fill: currentColor; vertical-align: text-bottom; }
+.footer-description p { margin: 0 0 15px; }
+.footer-description a { color: #79b8ff; text-decoration: none; }
+.footer-description a:hover { color: #bbb; text-decoration: underline; }
 
 .editor { height: 100vh; overflow: hidden; background: #eeece6; }
 .editor-header { position: relative; z-index: 5; height: 72px; padding: 0 24px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: #faf9f5; border-bottom: 1px solid #d7d4cc; }
@@ -118,6 +134,10 @@ button { color: inherit; }
   .intro { font-size: 14px; }
   .model-grid { grid-template-columns: 1fr; }
   .model-preview { height: 280px; }
+  .site-footer { width: calc(100% + 40px); margin: 45px 0 -45px -20px; }
+  .footer-wrapper { padding: 0 15px; }
+  .footer-col-wrapper { display: block; }
+  .footer-col { width: 100%; padding: 0 !important; }
   .editor-header { height: 62px; padding: 0 14px; grid-template-columns: 1fr auto 1fr; }
   .back { font-size: 0; }
   .editor-title { font-size: 12px; }

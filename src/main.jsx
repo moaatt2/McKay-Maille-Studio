@@ -5,6 +5,7 @@ import { Bounds, ContactShadows, Environment, Html, OrbitControls, useGLTF } fro
 import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
 import logoUrl from './assets/images/logo.png'
+import socialIconsUrl from './assets/images/minima-social-icons.svg'
 import './styles.css'
 
 const MODELS = [
@@ -116,6 +117,35 @@ function Home({ onOpen }) {
           ))}
         </div>
       </section>
+      <footer className="site-footer">
+        <div className="footer-wrapper">
+          <h2 className="footer-heading">McKay Maille</h2>
+          <div className="footer-col-wrapper">
+            <div className="footer-col">
+              <ul className="contact-list">
+                {[
+                  ['github', 'GitHub', 'https://github.com/moaatt2'],
+                  ['mastodon', 'Mastodon', 'https://mastodon.social/@mckaymaille'],
+                  ['pixelfed', 'Pixelfed', 'https://pixelfed.social/mckaymaille'],
+                  ['rss', 'RSS Feed', 'https://www.mckaymaille.ca/feed.xml'],
+                  ['email', 'mckaymaille@gmail.com', 'mailto:mckaymaille@gmail.com'],
+                  ['code', 'Source Code', 'https://github.com/moaatt2/test-blog'],
+                ].map(([icon, label, href]) => (
+                  <li key={label}>
+                    <a href={href} target="_blank" rel="noreferrer" title={label}>
+                      <svg className="svg-icon"><use href={`${socialIconsUrl}#${icon}`} /></svg>
+                      <span className="username">{label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="footer-col footer-description">
+              <p>Welcome to my chainmaille showcase and blog. I hope you enjoy what you see and learn a lot here.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }
