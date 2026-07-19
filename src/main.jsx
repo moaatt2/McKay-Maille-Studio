@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Bounds, ContactShadows, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
+import { Bounds, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
@@ -80,7 +80,6 @@ function Scene({ model, colors = [], selected = -1, onSelect = () => {}, preview
         <Bounds fit clip observe margin={preview ? 1.2 : 1.35}>
           <ModelObject file={model.file} colors={colors} selected={selected} onSelect={onSelect} preview={preview} />
         </Bounds>
-        {!preview && <ContactShadows opacity={0.28} blur={2.5} scale={12} position={[0, -2, 0]} />}
         <Environment preset="studio" />
       </Suspense>
       <OrbitControls makeDefault enablePan={!preview} autoRotate={preview} autoRotateSpeed={1.2} minDistance={2} maxDistance={12} />
