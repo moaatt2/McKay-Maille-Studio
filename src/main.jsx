@@ -27,16 +27,24 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
   const { scene } = useGLTF(file)
   const prepared = useMemo(() => {
     const copy = scene.clone(true)
-    let ringIndex = 0
     copy.traverse((item) => {
       if (!item.isMesh) return
       item.material = item.material.clone()
       const isSurface = item.material.name === 'Base Grey'
       if (isSurface) {
-        item.userData.ringIndex = ringIndex++
         item.material.metalness = 0.55
         item.material.roughness = 0.28
       }
+    })
+    let ringIndex = 0
+    copy.traverse((item) => {
+      if (!item.isMesh || item.material.name !== 'Base Grey') return
+      const index = ringIndex++
+      item.parent.traverse((part) => {
+        if (!part.isMesh) return
+        part.userData.ringIndex = index
+        part.userData.isOutline = part.material.name === 'Black Outline'
+      })
     })
     return copy
   }, [scene])
@@ -45,10 +53,12 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
     prepared.traverse((item) => {
       const index = item.userData.ringIndex
       if (!item.isMesh || index === undefined) return
-      item.material.color.set(colors[index] || '#717678')
+      item.material.color.set(item.userData.isOutline
+        ? (index === selected ? '#ffb000' : '#000000')
+        : (colors[index] || '#717678'))
       if (item.material.emissive) {
-        item.material.emissive.set(index === selected ? '#ffffff' : '#000000')
-        item.material.emissiveIntensity = index === selected ? 0.12 : 0
+        item.material.emissive.set('#000000')
+        item.material.emissiveIntensity = 0
       }
     })
   }, [prepared, colors, selected])
