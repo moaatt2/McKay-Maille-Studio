@@ -242,7 +242,6 @@ function Editor({ model, onBack }) {
         <section className="viewport">
           <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
           <div className="tip"><MousePointer2 size={15} /> Click to select · Shift-click to add · Ctrl-click to remove · Drag to rotate</div>
-          <div className="ring-chip"><span style={{ background: selectionFill }} /><div><small>Selected</small><strong>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</strong></div></div>
         </section>
         <div className={`palette-wrap ${paletteOpen ? 'open' : ''}`}>
           <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} />
