@@ -1,9 +1,38 @@
 
-# Model Painter
+# McKay Maille Designer
 
 ## Overview
 
-The purpose of this project is to create a way for users to color chainmail weaves the way they want so they have an idea of the options available to them.
+McKay Maille Designer is an interactive chainmaille colour designer. Pick a weave, select one or more rings, try colours, rotate the 3D preview, and share the finished design with a link.
+
+## Run locally
+
+You will need [Node.js](https://nodejs.org/) 20 or newer and npm.
+
+```sh
+git clone <repository-url>
+cd model-painter
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, normally <http://localhost:5173>.
+
+To check the production build locally:
+
+```sh
+npm run build
+npm run preview
+```
+
+## Trying the app
+
+1. Choose a weave from the home page.
+2. Click or tap a ring to select it. On desktop, Shift-click adds rings and Ctrl-click or Command-click removes them.
+3. Choose a colour, rotate or zoom the model, and try Undo and Reset.
+4. Use Share and confirm that the copied link opens the same design.
+
+The app requires a modern browser with WebGL enabled. When reporting a problem, please include the browser and device you used, what you expected, and what happened instead.
 
 ## Adding models
 
