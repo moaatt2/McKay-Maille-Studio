@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import { Box3, MathUtils, Vector3 } from 'three'
-import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
+import { ArrowLeft, Check, ChevronRight, Download, MousePointer2, Plus, RotateCcw, Search, Trash2, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
 import modelCatalog from '../models/models.json'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
@@ -11,10 +11,12 @@ import './styles.css'
 
 const modelFiles = import.meta.glob('../models/*.glb', { eager: true, query: '?url', import: 'default' })
 const thumbnailFiles = import.meta.glob('./assets/thumbnails/*.webp', { eager: true, query: '?url', import: 'default' })
+const groupFiles = import.meta.glob('../models/*.groups.json', { eager: true, import: 'default' })
 const MODELS = modelCatalog.map((model) => ({
   ...model,
   file: modelFiles[`../models/${model.file}`],
   thumbnail: thumbnailFiles[`./assets/thumbnails/${model.thumbnail}`],
+  groups: groupFiles[`../models/${model.id}.groups.json`]?.groups || [],
 }))
 
 const COLORS = Object.entries(paletteData).map(([key, value]) => ({
@@ -220,13 +222,17 @@ function Home({ onOpen }) {
   )
 }
 
-function Palette({ current, onPick, onClose }) {
+function Palette({ current, onPick, onClose, groups = [], onSelectGroup }) {
   const [query, setQuery] = useState('')
   const [finish, setFinish] = useState('All')
   const shown = COLORS.filter((c) => (finish === 'All' || c.finish === finish) && c.name.toLowerCase().includes(query.toLowerCase()))
   return (
     <aside className="palette-panel">
       <div className="panel-title"><div><p className="eyebrow">Ring colour</p><h2>Choose a finish</h2></div><button className="icon-button mobile-close" onClick={onClose}><X /></button></div>
+      {groups.length > 0 && <div className="related-groups">
+        <small>Ring Groups</small>
+        <div>{groups.map((group) => <button type="button" key={group.id} onClick={() => onSelectGroup(group.rings)}>{group.name}</button>)}</div>
+      </div>}
       <div className="search"><Search size={17} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search colours" /></div>
       <div className="tabs">{['All', 'Bright', 'Matte'].map((tab) => <button className={finish === tab ? 'active' : ''} onClick={() => setFinish(tab)} key={tab}>{tab}</button>)}</div>
       <div className="swatches">
@@ -266,6 +272,10 @@ function Editor({ model, onBack }) {
     })
     setPaletteOpen(true)
   }
+  const selectGroup = (rings) => {
+    setSelected([...rings])
+    setPaletteOpen(true)
+  }
   const selectedColors = [...new Set(selected.map((index) => colors[index]))]
   const current = selectedColors.length === 1 ? selectedColors[0] : null
   const selectionFill = current || 'conic-gradient(#ffb000, #4085b8, #b5546a, #ffb000)'
@@ -287,10 +297,86 @@ function Editor({ model, onBack }) {
           </div>
         </section>
         <div className={`palette-wrap ${paletteOpen ? 'open' : ''}`}>
-          <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} />
+          <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} groups={model.groups} onSelectGroup={selectGroup} />
         </div>
       </div>
       <button className="mobile-picker" onClick={() => setPaletteOpen(true)}><span style={{ background: selectionFill }} /><div><small>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</small><strong>{currentName}</strong></div><ChevronRight /></button>
+    </main>
+  )
+}
+
+function GroupEditor({ model }) {
+  const [groups, setGroups] = useState(model.groups)
+  const [selected, setSelected] = useState([])
+  const [newName, setNewName] = useState('')
+  const colors = useMemo(() => Array(model.rings).fill('#717678'), [model])
+
+  const selectRing = (index, action = {}) => {
+    setSelected((old) => {
+      if (action.remove) return old.filter((item) => item !== index)
+      if (action.add) return old.includes(index) ? old : [...old, index]
+      return [index]
+    })
+  }
+  const createGroup = (event) => {
+    event.preventDefault()
+    const name = newName.trim()
+    if (!name || !selected.length) return
+    const baseId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'group'
+    let id = baseId
+    let suffix = 2
+    while (groups.some((group) => group.id === id)) id = `${baseId}-${suffix++}`
+    setGroups((old) => [...old, { id, name, rings: [...selected].sort((a, b) => a - b) }])
+    setNewName('')
+  }
+  const updateGroup = (id, changes) => setGroups((old) => old.map((group) => group.id === id ? { ...group, ...changes } : group))
+  const download = () => {
+    const payload = JSON.stringify({ model: model.id, groups }, null, 2)
+    const url = URL.createObjectURL(new Blob([`${payload}\n`], { type: 'application/json' }))
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = `${model.id}.groups.json`
+    anchor.click()
+    URL.revokeObjectURL(url)
+  }
+
+  return (
+    <main className="group-editor">
+      <header className="group-editor-header">
+        <a href="/"><ArrowLeft size={18} /> Homepage</a>
+        <div><strong>{model.name}</strong><small>Group authoring · development only</small></div>
+        <button type="button" onClick={download}><Download size={16} /> Download JSON</button>
+      </header>
+      <div className="group-editor-workspace">
+        <section className="group-editor-viewport">
+          <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
+          <div className="tip"><MousePointer2 size={15} /> Click to select · Shift-click to add · Ctrl-click to remove</div>
+        </section>
+        <aside className="group-manager">
+          <p className="eyebrow">Selection</p>
+          <h1>{selected.length} {selected.length === 1 ? 'ring' : 'rings'} selected</h1>
+          <p className="group-help">Select rings in the model, then create a group or update an existing one.</p>
+          <form className="new-group" onSubmit={createGroup}>
+            <input value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="New group name" />
+            <button disabled={!newName.trim() || !selected.length}><Plus size={16} /> Add</button>
+          </form>
+          <div className="group-list">
+            {groups.map((group) => (
+              <div className="group-row" key={group.id}>
+                <input value={group.name} onChange={(event) => updateGroup(group.id, { name: event.target.value })} aria-label="Group name" />
+                <small>{group.rings.length} rings · {group.id}</small>
+                <div>
+                  <button type="button" onClick={() => setSelected(group.rings)}>Select</button>
+                  <button type="button" disabled={!selected.length} onClick={() => updateGroup(group.id, { rings: [...selected].sort((a, b) => a - b) })}>Update</button>
+                  <button className="delete-group" type="button" onClick={() => setGroups((old) => old.filter((item) => item.id !== group.id))} title="Delete group"><Trash2 size={15} /></button>
+                </div>
+              </div>
+            ))}
+            {!groups.length && <p className="no-groups">No groups yet.</p>}
+          </div>
+          <p className="save-note">Download and replace <code>models/{model.id}.groups.json</code> when finished.</p>
+        </aside>
+      </div>
     </main>
   )
 }
@@ -313,4 +399,7 @@ function ThumbnailPage({ model }) {
 
 const thumbnailId = new URLSearchParams(location.search).get('thumbnail')
 const thumbnailModel = MODELS.find((model) => model.id === thumbnailId)
-createRoot(document.getElementById('root')).render(thumbnailModel ? <ThumbnailPage model={thumbnailModel} /> : <App />)
+const groupEditorMatch = location.pathname.match(/^\/group-editor\/([^/]+)\/?$/)
+if (groupEditorMatch && !import.meta.env.DEV) history.replaceState({}, '', '/')
+const groupEditorModel = import.meta.env.DEV && groupEditorMatch ? MODELS.find((model) => model.id === groupEditorMatch[1]) : null
+createRoot(document.getElementById('root')).render(thumbnailModel ? <ThumbnailPage model={thumbnailModel} /> : groupEditorModel ? <GroupEditor model={groupEditorModel} /> : <App />)

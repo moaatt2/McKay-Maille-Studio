@@ -1,0 +1,45 @@
+{
+  "model": "two_way_spiral",
+  "groups": [
+    {
+      "id": "vertical-rings",
+      "name": "Vertical",
+      "rings": [
+        0,
+        6,
+        12
+      ]
+    },
+    {
+      "id": "horizontal-rings",
+      "name": "Horizontal",
+      "rings": [
+        3,
+        9,
+        15
+      ]
+    },
+    {
+      "id": "angle-1",
+      "name": "Angle 1",
+      "rings": [
+        1,
+        5,
+        7,
+        11,
+        13
+      ]
+    },
+    {
+      "id": "angle-2",
+      "name": "Angle 2",
+      "rings": [
+        2,
+        4,
+        8,
+        10,
+        14
+      ]
+    }
+  ]
+}

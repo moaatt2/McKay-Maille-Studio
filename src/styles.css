@@ -77,6 +77,11 @@ button { color: inherit; }
 .palette-panel { height: 100%; min-height: 0; overflow: hidden; display: flex; flex-direction: column; padding: 28px 23px 0; background: #faf9f5; border-left: 1px solid #d7d4cc; }
 .panel-title { display: flex; justify-content: space-between; }
 .panel-title h2 { margin: 0 0 21px; font-size: 22px; font-weight: 500; }
+.related-groups { margin: -3px 0 17px; }
+.related-groups > small { display: block; margin-bottom: 8px; color: #888; font-size: 8px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.related-groups > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.related-groups button { padding: 6px 9px; color: #bbb; cursor: pointer; border: 1px solid #404040; border-radius: 15px; background: #181818; font-size: 9px; }
+.related-groups button:hover { color: #79b8ff; border-color: #79b8ff; }
 .search { height: 41px; padding: 0 12px; display: flex; gap: 8px; align-items: center; border: 1px solid #d5d2ca; background: white; }
 .search input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 12px; }
 .tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 17px 0; border-bottom: 1px solid #d8d5cd; }
@@ -94,6 +99,34 @@ button { color: inherit; }
 .mobile-close, .mobile-picker { display: none; }
 .loader { width: 28px; height: 28px; border: 2px solid #aaa; border-top-color: #333; border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.group-editor { height: 100vh; overflow: hidden; color: #bbb; background: #181818; }
+.group-editor-header { height: 72px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 24px; border-bottom: 1px solid #404040; background: #212121; }
+.group-editor-header > a, .group-editor-header > button { display: inline-flex; align-items: center; gap: 8px; color: #bbb; font-size: 12px; text-decoration: none; }
+.group-editor-header > button { justify-self: end; padding: 9px 12px; cursor: pointer; border: 1px solid #404040; border-radius: 3px; background: #181818; }
+.group-editor-header > a:hover, .group-editor-header > button:hover { color: #79b8ff; }
+.group-editor-header > div { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+.group-editor-header small { color: #999; font-size: 9px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; }
+.group-editor-workspace { height: calc(100vh - 72px); display: grid; grid-template-columns: minmax(0, 1fr) 380px; }
+.group-editor-viewport { position: relative; min-width: 0; min-height: 0; }
+.group-manager { min-height: 0; padding: 28px 24px; overflow-y: auto; border-left: 1px solid #404040; background: #212121; }
+.group-manager h1 { margin: 0 0 8px; font-size: 24px; font-weight: 400; }
+.group-help { margin: 0 0 22px; color: #999; font-size: 12px; line-height: 1.55; }
+.new-group { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid #404040; }
+.new-group input, .group-row input { min-width: 0; padding: 10px; color: #bbb; border: 1px solid #404040; outline: none; background: #181818; }
+.new-group input:focus, .group-row input:focus { border-color: #79b8ff; }
+.new-group button, .group-row button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 10px; color: #bbb; cursor: pointer; border: 1px solid #404040; border-radius: 3px; background: #181818; }
+.new-group button:hover, .group-row button:hover { color: #79b8ff; border-color: #79b8ff; }
+.new-group button:disabled, .group-row button:disabled { opacity: .35; pointer-events: none; }
+.group-list { display: flex; flex-direction: column; gap: 12px; padding: 18px 0; }
+.group-row { display: grid; gap: 7px; padding: 12px; border: 1px solid #404040; }
+.group-row small { color: #888; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.group-row > div { display: flex; gap: 6px; }
+.group-row .delete-group { width: 34px; margin-left: auto; padding: 7px; }
+.group-row .delete-group:hover { color: #f07178; border-color: #f07178; }
+.no-groups { color: #777; font-size: 12px; text-align: center; }
+.save-note { color: #888; font-size: 11px; line-height: 1.5; }
+.save-note code { color: #bbb; }
 
 /* McKay Maille theme — mirrors the visual tokens used on mckaymaille.ca. */
 .home { background: #181818; }
