@@ -263,6 +263,19 @@ function Editor({ model, onBack }) {
     if (!history.length) return
     setColors(history.at(-1)); setHistory((h) => h.slice(0, -1))
   }
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      const target = event.target
+      const isEditingText = target instanceof HTMLElement && (target.matches('input, textarea, select') || target.isContentEditable)
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z' && !event.shiftKey && !isEditingText && history.length) {
+        event.preventDefault()
+        setColors(history.at(-1))
+        setHistory((old) => old.slice(0, -1))
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [history])
   const reset = () => { setHistory((h) => [...h, colors]); setColors(initial) }
   const selectRing = (index, action = {}) => {
     setSelected((old) => {
