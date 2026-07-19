@@ -2,8 +2,9 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Bounds, ContactShadows, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
-import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Sparkles, Undo2, X } from 'lucide-react'
+import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
+import logoUrl from './assets/images/logo.png'
 import './styles.css'
 
 const MODELS = [
@@ -91,7 +92,7 @@ function Home({ onOpen }) {
   return (
     <main className="home">
       <header className="home-header">
-        <div className="brand"><span className="brand-mark"><Sparkles size={16} /></span><span>McKay Maille <b>Designer</b></span></div>
+        <div className="brand"><img className="brand-mark" src={logoUrl} alt="McKay Maille" /><span>McKay Maille <b>Designer</b></span></div>
         <a className="header-note" href="https://www.mckaymaille.ca">Back to mckaymaille.ca</a>
       </header>
       <section className="hero">

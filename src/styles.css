@@ -6,7 +6,7 @@ button { color: inherit; }
 .home { min-height: 100vh; padding: 0 5vw 70px; background: radial-gradient(circle at 85% 10%, #fff 0, transparent 28%), #f3f0e9; }
 .home-header { height: 86px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #cfcbc1; }
 .brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; letter-spacing: .04em; }
-.brand-mark { width: 30px; height: 30px; display: grid; place-items: center; color: #f8f5ee; background: #292923; border-radius: 50%; }
+.brand-mark { width: 30px; height: 30px; display: block; object-fit: contain; }
 .header-note { text-transform: uppercase; font-size: 10px; letter-spacing: .18em; color: #77766e; }
 .hero { padding: 76px 0 68px; max-width: 900px; }
 .eyebrow { color: #93644b; margin: 0 0 14px; text-transform: uppercase; font-size: 10px; font-weight: 600; letter-spacing: .2em; }
@@ -68,7 +68,7 @@ button { color: inherit; }
 .home-header { border-color: #404040; }
 .brand { color: #a6a6a6; font-size: 18px; font-weight: 300; letter-spacing: -0.02em; }
 .brand b { color: #79b8ff; font-weight: 400; }
-.brand-mark { color: #181818; background: #469dff; border-radius: 3px; }
+.brand-mark { background: #181818; border-radius: 0; image-rendering: pixelated; }
 .header-note { color: #79b8ff; text-decoration: none; }
 .header-note:hover { color: #bbb; text-decoration: underline; }
 .eyebrow { color: #469dff; }
