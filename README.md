@@ -1,9 +1,9 @@
 
-# McKay Maille Designer
+# McKay Maille Studio
 
 ## Overview
 
-McKay Maille Designer is an interactive chainmaille colour designer. Pick a weave, select one or more rings, try colours, rotate the 3D preview, and share the finished design with a link.
+McKay Maille Studio is an interactive chainmaille colour designer. Pick a weave, select one or more rings, try colours, rotate the 3D preview, and share the finished design with a link.
 
 ## Run locally
 
@@ -11,7 +11,7 @@ You will need [Node.js](https://nodejs.org/) 20 or newer and npm.
 
 ```sh
 git clone <repository-url>
-cd model-painter
+cd mckay-maille-studio
 npm install
 npm run dev
 ```
