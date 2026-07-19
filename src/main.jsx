@@ -241,7 +241,11 @@ function Editor({ model, onBack }) {
       <div className="workspace">
         <section className="viewport">
           <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
-          <div className="tip"><MousePointer2 size={15} /> Click to select · Shift-click to add · Ctrl-click to remove · Drag to rotate</div>
+          <div className="tip">
+            <MousePointer2 size={15} />
+            <span className="desktop-tip">Click to select · Shift-click to add · Ctrl-click to remove · Drag to rotate</span>
+            <span className="mobile-tip">Tap a ring to select · Drag to rotate · Pinch to zoom</span>
+          </div>
         </section>
         <div className={`palette-wrap ${paletteOpen ? 'open' : ''}`}>
           <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} />
