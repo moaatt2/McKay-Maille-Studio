@@ -237,7 +237,8 @@ function Palette({ current, onPick, onClose }) {
         {shown.map((color) => (
           <button key={color.key} className={`swatch ${current === color.hex ? 'selected' : ''}`} onClick={() => onPick(color.hex)} title={color.name}>
             <span style={{ background: color.hex }}>{current === color.hex && <Check size={16} />}</span>
-            <small>{color.name.replace(/^(Bright|Matte) /, '')}</small>
+            <small className="swatch-name">{color.name.replace(/^(Bright|Matte) /, '')}</small>
+            {finish === 'All' && <small className={`swatch-finish ${color.finish.toLowerCase()}`}>{color.finish}</small>}
           </button>
         ))}
       </div>
