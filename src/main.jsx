@@ -136,15 +136,15 @@ function Home({ onOpen }) {
         <div className="section-heading"><span>Select a model</span><span>{MODELS.length} designs</span></div>
         <div className="model-grid">
           {MODELS.map((model, index) => (
-            <button className="model-card" key={model.id} onClick={() => onOpen(model)}>
+            <article className="model-card" key={model.id}>
               <div className="card-index">0{index + 1}</div>
               <div className="model-preview"><Scene model={model} preview /></div>
-              <div className="card-copy">
+              <button className="card-copy" type="button" onClick={() => onOpen(model)}>
                 <div><h2>{model.name}</h2><p>{model.note}</p></div>
                 <span className="open-button"><ChevronRight /></span>
-              </div>
+              </button>
               <div className="card-meta"><span>{model.rings} rings</span><span>360° preview</span></div>
-            </button>
+            </article>
           ))}
         </div>
       </section>

@@ -28,11 +28,12 @@ button { color: inherit; }
 .intro { max-width: 620px; margin: 22px 0 0; color: #6d6c64; font-size: 15px; line-height: 1.6; }
 .section-heading { border-bottom: 1px solid #aaa79f; padding-bottom: 12px; display: flex; justify-content: space-between; text-transform: uppercase; font-size: 10px; letter-spacing: .18em; color: #696860; }
 .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; }
-.model-card { position: relative; border: 0; padding: 0; text-align: left; background: #e8e5dd; cursor: pointer; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
+.model-card { position: relative; border: 0; padding: 0; text-align: left; background: #e8e5dd; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
 .model-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px #5f594d22; }
 .card-index { position: absolute; z-index: 2; top: 20px; left: 20px; font-size: 10px; letter-spacing: .15em; color: #77746c; }
-.model-preview { height: 350px; pointer-events: none; }
-.card-copy { background: #fbfaf7; display: flex; justify-content: space-between; align-items: center; padding: 25px 28px 21px; border-top: 1px solid #d4d0c6; }
+.model-preview { height: 350px; cursor: grab; }
+.model-preview:active { cursor: grabbing; }
+.card-copy { width: 100%; color: inherit; text-align: left; cursor: pointer; background: #fbfaf7; display: flex; justify-content: space-between; align-items: center; padding: 25px 28px 21px; border: 0; border-top: 1px solid #d4d0c6; }
 .card-copy h2 { margin: 0 0 5px; font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
 .card-copy p { margin: 0; font-size: 12px; color: #7e7b72; }
 .open-button { display: grid; place-items: center; width: 43px; height: 43px; color: white; background: #2c2c27; border-radius: 50%; transition: transform .2s; }
