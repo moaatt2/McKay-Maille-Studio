@@ -245,7 +245,7 @@ function Home({ onOpen }) {
   )
 }
 
-function Palette({ current, onPick, onClose, groups = [], onSelectGroup }) {
+function Palette({ current, onPick, onClose, groups = [], onSelectGroup, activeGroupId }) {
   const [query, setQuery] = useState('')
   const [finish, setFinish] = useState('All')
   const shown = COLORS.filter((c) => (finish === 'All' || c.finish === finish) && c.name.toLowerCase().includes(query.toLowerCase()))
@@ -254,7 +254,7 @@ function Palette({ current, onPick, onClose, groups = [], onSelectGroup }) {
       <div className="panel-title"><div><p className="eyebrow">Ring colour</p><h2>Choose a finish</h2></div><button className="icon-button mobile-close" onClick={onClose}><X /></button></div>
       {groups.length > 0 && <div className="related-groups">
         <small>Ring Groups</small>
-        <div>{groups.map((group) => <button type="button" key={group.id} onClick={() => onSelectGroup(group.rings)}>{group.name}</button>)}</div>
+        <div>{groups.map((group) => <button className={activeGroupId === group.id ? 'active' : ''} type="button" key={group.id} onClick={() => onSelectGroup(group.rings)}>{group.name}</button>)}</div>
       </div>}
       <div className="search"><Search size={17} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search colours" /></div>
       <div className="tabs">{['All', 'Bright', 'Matte'].map((tab) => <button className={finish === tab ? 'active' : ''} onClick={() => setFinish(tab)} key={tab}>{tab}</button>)}</div>
@@ -392,7 +392,7 @@ function Editor({ model, onBack }) {
           </div>
         </section>
         <div className={`palette-wrap ${paletteOpen ? 'open' : ''}`}>
-          <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} groups={model.groups} onSelectGroup={selectGroup} />
+          <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} groups={model.groups} onSelectGroup={selectGroup} activeGroupId={activeGroup?.id} />
         </div>
       </div>
       <button className="mobile-picker" onClick={() => setPaletteOpen(true)}><span style={{ background: selectionFill }} /><div><small>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</small><strong>{currentName}</strong></div><ChevronRight /></button>

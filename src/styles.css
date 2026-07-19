@@ -83,6 +83,7 @@ button { color: inherit; }
 .related-groups > div { display: flex; flex-wrap: wrap; gap: 6px; }
 .related-groups button { padding: 6px 9px; color: #bbb; cursor: pointer; border: 1px solid #404040; border-radius: 15px; background: #181818; font-size: 9px; }
 .related-groups button:hover { color: #79b8ff; border-color: #79b8ff; }
+.related-groups button.active { color: #181818; border-color: #79b8ff; background: #79b8ff; }
 .search { height: 41px; padding: 0 12px; display: flex; gap: 8px; align-items: center; border: 1px solid #d5d2ca; background: white; }
 .search input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 12px; }
 .tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 17px 0; border-bottom: 1px solid #d8d5cd; }
