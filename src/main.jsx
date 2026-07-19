@@ -4,7 +4,6 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { Bounds, ContactShadows, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
-import logoUrl from './assets/images/logo.png'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
 import './styles.css'
 
@@ -92,9 +91,25 @@ function Scene({ model, colors = [], selected = -1, onSelect = () => {}, preview
 function Home({ onOpen }) {
   return (
     <main className="home">
-      <header className="home-header">
-        <div className="brand"><img className="brand-mark" src={logoUrl} alt="McKay Maille" /><span>McKay Maille <b>Designer</b></span></div>
-        <a className="header-note" href="https://www.mckaymaille.ca">Back to mckaymaille.ca</a>
+      <header className="site-header">
+        <div className="header-wrapper">
+          <a className="site-title" href="https://www.mckaymaille.ca">McKay Maille</a>
+          <nav className="site-nav">
+            <input type="checkbox" id="nav-trigger" className="nav-trigger" />
+            <label htmlFor="nav-trigger">
+              <span className="menu-icon">
+                <svg viewBox="0 0 18 15" width="18" height="15"><path d="M18 1.484c0 .82-.665 1.484-1.484 1.484H1.484C.665 2.969 0 2.304 0 1.484S.665 0 1.484 0h15.032C17.335 0 18 .665 18 1.484zM18 7.516C18 8.335 17.335 9 16.516 9H1.484C.665 9 0 8.335 0 7.516c0-.82.665-1.485 1.484-1.485h15.032c.819 0 1.484.665 1.484 1.485zm0 6C18 14.335 17.335 15 16.516 15H1.484C.665 15 0 14.335 0 13.516c0-.82.665-1.483 1.484-1.483h15.032c.819 0 1.484.663 1.484 1.483z" /></svg>
+              </span>
+            </label>
+            <div className="nav-links">
+              {[
+                ['About', '/about/'], ['Contact', '/contact/'], ['Gallery', '/gallery/'],
+                ['Glossary', '/glossary/'], ['Blogroll', '/blogroll/'],
+                ['Posts By Family', '/families'], ['Posts By Tag', '/tags/'],
+              ].map(([label, path]) => <a className="page-link" href={`https://www.mckaymaille.ca${path}`} key={label}>{label}</a>)}
+            </div>
+          </nav>
+        </div>
       </header>
       <section className="hero">
         <p className="eyebrow">Interactive colour studio</p>
@@ -142,6 +157,7 @@ function Home({ onOpen }) {
             </div>
             <div className="footer-col footer-description">
               <p>Welcome to my chainmaille showcase and blog. I hope you enjoy what you see and learn a lot here.</p>
+              <p><a href="https://pages.github.com/">GH Pages</a> 232 <a href="https://jekyllrb.com/">Jekyll</a> 3.10.0</p>
             </div>
           </div>
         </div>

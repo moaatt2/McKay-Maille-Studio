@@ -8,6 +8,19 @@ button { color: inherit; }
 .brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; letter-spacing: .04em; }
 .brand-mark { width: 30px; height: 30px; display: block; object-fit: contain; }
 .header-note { text-transform: uppercase; font-size: 10px; letter-spacing: .18em; color: #77766e; }
+.site-header { width: calc(100% + 10vw); min-height: 60px; margin-left: -5vw; border-top: 5px solid #181818; border-bottom: 1px solid #404040; line-height: 54px; }
+.header-wrapper { position: relative; width: 100%; max-width: 800px; min-height: 55px; margin: 0 auto; padding: 0 30px; }
+.site-title { float: left; margin: 0; color: #a6a6a6; font-size: 26px; font-weight: 300; letter-spacing: -1px; text-decoration: none; }
+.site-title:visited { color: #a6a6a6; }
+.site-title:hover { color: #bbb; text-decoration: underline; }
+.site-nav { float: right; }
+.nav-trigger { display: none; }
+.site-nav label { display: none; }
+.nav-links { display: block; }
+.page-link { color: #bbb; font-size: 16px; line-height: 1.5; text-decoration: none; }
+.page-link:visited { color: #bbb; }
+.page-link:not(:last-child) { margin-right: 20px; }
+.page-link:hover { color: #bbb; text-decoration: underline; }
 .hero { padding: 42px 0 46px; max-width: 760px; }
 .eyebrow { color: #93644b; margin: 0 0 14px; text-transform: uppercase; font-size: 10px; font-weight: 600; letter-spacing: .2em; }
 .hero h1 { font-size: clamp(46px, 5.2vw, 76px); line-height: .96; letter-spacing: -.045em; margin: 0; font-weight: 500; }
@@ -26,7 +39,7 @@ button { color: inherit; }
 .model-card:hover .open-button { transform: translateX(3px); }
 .card-meta { display: flex; gap: 20px; padding: 0 28px 22px; background: #fbfaf7; text-transform: uppercase; color: #8b887e; font-size: 9px; letter-spacing: .15em; }
 .site-footer { width: calc(100% + 10vw); margin: 64px 0 -70px -5vw; padding: 30px 0; border-top: 1px solid #404040; }
-.footer-wrapper { max-width: 710px; margin: 0 auto; padding: 0 30px; }
+.footer-wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 30px; }
 .footer-heading { margin: 0 0 15px; color: #bbb; font-size: 18px; font-weight: 400; }
 .footer-col-wrapper { display: flex; color: #999; font-size: 15px; line-height: 1.5; }
 .footer-col { width: calc(50% - 15px); margin-bottom: 15px; padding: 0 15px; }
@@ -129,6 +142,16 @@ button { color: inherit; }
   .home { padding: 0 20px 45px; }
   .home-header { height: 68px; }
   .header-note { display: none; }
+  .site-header { width: calc(100% + 40px); margin-left: -20px; }
+  .header-wrapper { padding: 0 15px; }
+  .site-title { padding-right: 45px; }
+  .site-nav { position: absolute; z-index: 99; top: 9px; right: 15px; border: 1px solid #404040; border-radius: 5px; background: #181818; text-align: right; }
+  .site-nav label { position: relative; z-index: 2; display: block; float: right; width: 36px; height: 36px; cursor: pointer; }
+  .menu-icon { float: right; width: 36px; height: 26px; padding-top: 10px; line-height: 0; text-align: center; }
+  .menu-icon path { fill: #999; }
+  .nav-links { display: none; clear: both; }
+  .nav-trigger:checked ~ .nav-links { display: block; padding-bottom: 5px; }
+  .page-link { display: block; margin: 0 0 0 20px !important; padding: 5px 10px; }
   .hero { padding: 55px 0 45px; }
   .hero h1 { font-size: clamp(48px, 15vw, 70px); }
   .intro { font-size: 14px; }
