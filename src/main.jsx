@@ -132,18 +132,14 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
 }
 
 function ModelCard({ model, index, onOpen }) {
-  const [interactive, setInteractive] = useState(false)
   return (
     <article className="model-card">
       <div className="card-index">{String(index + 1).padStart(2, '0')}</div>
-      <div className="model-preview">
-        {interactive
-          ? <Scene model={model} preview />
-          : model.thumbnail
-            ? <img src={model.thumbnail} alt={`${model.name} weave`} />
-            : <div className="thumbnail-missing">Thumbnail unavailable</div>}
-        {!interactive && <button className="preview-button" type="button" onClick={() => setInteractive(true)}>Interactive preview</button>}
-      </div>
+      <button className="model-preview" type="button" onClick={() => onOpen(model)} aria-label={`Design ${model.name}`}>
+        {model.thumbnail
+          ? <img src={model.thumbnail} alt={`${model.name} weave`} />
+          : <span className="thumbnail-missing">Thumbnail unavailable</span>}
+      </button>
       <button className="card-copy" type="button" onClick={() => onOpen(model)}>
         <div><h2>{model.name}</h2><p>{model.subtitle}</p></div>
         <span className="open-button"><ChevronRight /></span>
