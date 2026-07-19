@@ -71,7 +71,7 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
 function Scene({ model, colors = [], selected = -1, onSelect = () => {}, preview = false }) {
   return (
     <Canvas camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }} dpr={[1, 1.8]} gl={{ antialias: true }}>
-      <color attach="background" args={[preview ? '#e8e5dd' : '#eeece6']} />
+      <color attach="background" args={[preview ? '#212121' : '#181818']} />
       <ambientLight intensity={0.8} />
       <directionalLight position={[5, 8, 5]} intensity={2.2} />
       <directionalLight position={[-4, 2, -4]} intensity={0.8} color="#aebbd4" />
@@ -91,11 +91,11 @@ function Home({ onOpen }) {
   return (
     <main className="home">
       <header className="home-header">
-        <div className="brand"><span className="brand-mark"><Sparkles size={16} /></span> Ring Painter</div>
-        <span className="header-note">Chainmaille colour studio</span>
+        <div className="brand"><span className="brand-mark"><Sparkles size={16} /></span><span>McKay Maille <b>Designer</b></span></div>
+        <a className="header-note" href="https://www.mckaymaille.ca">Back to mckaymaille.ca</a>
       </header>
       <section className="hero">
-        <p className="eyebrow">Design in three dimensions</p>
+        <p className="eyebrow">Interactive colour studio</p>
         <h1>Choose a weave.<br /><em>Make it yours.</em></h1>
         <p className="intro">Explore each ring, compose your colour story, and preview the finished piece from every angle.</p>
       </section>

@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap');
-
-:root { font-family: 'DM Sans', sans-serif; color: #272722; background: #f3f0e9; font-synthesis: none; }
+:root { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif; color: #bbb; background: #181818; font-synthesis: none; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 button, input { font: inherit; }
@@ -13,7 +11,7 @@ button { color: inherit; }
 .hero { padding: 76px 0 68px; max-width: 900px; }
 .eyebrow { color: #93644b; margin: 0 0 14px; text-transform: uppercase; font-size: 10px; font-weight: 600; letter-spacing: .2em; }
 .hero h1 { font-size: clamp(54px, 7.2vw, 105px); line-height: .9; letter-spacing: -.055em; margin: 0; font-weight: 500; }
-.hero h1 em { font-family: 'Playfair Display', serif; color: #80614e; font-weight: 600; }
+.hero h1 em { color: #79b8ff; font-style: normal; font-weight: 300; }
 .intro { max-width: 470px; margin: 30px 0 0; color: #6d6c64; font-size: 16px; line-height: 1.7; }
 .section-heading { border-bottom: 1px solid #aaa79f; padding-bottom: 12px; display: flex; justify-content: space-between; text-transform: uppercase; font-size: 10px; letter-spacing: .18em; color: #696860; }
 .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; }
@@ -65,6 +63,52 @@ button { color: inherit; }
 .loader { width: 28px; height: 28px; border: 2px solid #aaa; border-top-color: #333; border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* McKay Maille theme — mirrors the visual tokens used on mckaymaille.ca. */
+.home { background: #181818; }
+.home-header { border-color: #404040; }
+.brand { color: #a6a6a6; font-size: 18px; font-weight: 300; letter-spacing: -0.02em; }
+.brand b { color: #79b8ff; font-weight: 400; }
+.brand-mark { color: #181818; background: #469dff; border-radius: 3px; }
+.header-note { color: #79b8ff; text-decoration: none; }
+.header-note:hover { color: #bbb; text-decoration: underline; }
+.eyebrow { color: #469dff; }
+.hero h1 { color: #bbb; font-weight: 300; letter-spacing: -0.045em; }
+.intro, .section-heading { color: #999; }
+.section-heading { border-color: #404040; }
+.model-card { color: #bbb; background: #212121; border: 1px solid #404040; }
+.model-card:hover { border-color: #79b8ff; box-shadow: 0 16px 45px #0008; }
+.card-index { color: #999; }
+.card-copy, .card-meta { background: #212121; }
+.card-copy { border-color: #404040; }
+.card-copy h2 { color: #79b8ff; font-weight: 400; }
+.card-copy p, .card-meta { color: #999; }
+.open-button { color: #181818; background: #469dff; border-radius: 3px; }
+
+.editor, .viewport { background: #181818; }
+.editor-header, .palette-panel { background: #212121; border-color: #404040; }
+.editor-title { color: #bbb; }
+.editor-title small { color: #999; }
+.back, .header-actions button, .icon-button { color: #bbb; }
+.back:hover, .header-actions button:hover, .icon-button:hover { color: #79b8ff; }
+.header-actions button { border-color: #404040; background: #181818; }
+.header-actions button:hover { border-color: #79b8ff; }
+.ring-chip { color: #bbb; background: #212121e8; border-color: #404040; }
+.ring-chip small { color: #999; }
+.tip { color: #bbb; background: #212121ee; border: 1px solid #404040; }
+.panel-title h2 { color: #bbb; font-weight: 400; }
+.search { color: #999; background: #181818; border-color: #404040; }
+.search input { color: #bbb; }
+.search input::placeholder { color: #777; }
+.tabs { border-color: #404040; }
+.tabs button { color: #999; }
+.tabs button.active { color: #79b8ff; box-shadow: 0 1px #469dff; }
+.swatch small { color: #999; }
+.swatch.selected > span { outline-color: #79b8ff; }
+.empty { color: #999; }
+.mobile-picker { color: #bbb; background: #212121; border-color: #404040; box-shadow: 0 8px 30px #0008; }
+.mobile-picker small { color: #999; }
+.loader { border-color: #404040; border-top-color: #79b8ff; }
+
 @media (max-width: 760px) {
   .home { padding: 0 20px 45px; }
   .home-header { height: 68px; }
@@ -92,4 +136,8 @@ button { color: inherit; }
   .mobile-picker small { font-size: 8px; text-transform: uppercase; color: #88857d; }
   .mobile-picker strong { font-size: 11px; }
   .ring-chip { top: 14px; left: 14px; }
+}
+
+@media (max-width: 760px) {
+  .mobile-picker { background: #212121; border-color: #404040; box-shadow: 0 8px 30px #0008; }
 }
