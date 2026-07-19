@@ -407,7 +407,7 @@ function App() {
 
 function ThumbnailPage({ model }) {
   const markReady = () => setTimeout(() => { document.documentElement.dataset.thumbnailReady = 'true' }, 700)
-  return <div className="thumbnail-capture"><Scene model={model} preview thumbnail onFramed={markReady} /></div>
+  return <div className="thumbnail-capture"><Scene model={model} thumbnail onFramed={markReady} /></div>
 }
 
 const thumbnailId = new URLSearchParams(location.search).get('thumbnail')

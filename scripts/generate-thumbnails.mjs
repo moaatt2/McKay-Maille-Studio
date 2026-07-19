@@ -48,7 +48,7 @@ try {
       canvas.width = image.width
       canvas.height = image.height
       canvas.getContext('2d').drawImage(image, 0, 0)
-      return canvas.toDataURL('image/webp', 0.84).split(',')[1]
+      return canvas.toDataURL('image/webp', 0.96).split(',')[1]
     }, png.toString('base64'))
     await writeFile(path.join(root, 'src', 'assets', 'thumbnails', model.thumbnail), Buffer.from(webp, 'base64'))
     process.stdout.write(`Generated ${model.thumbnail}\n`)
