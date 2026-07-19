@@ -1,16 +1,21 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Bounds, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
+import { Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
+import { Box3, MathUtils, Vector3 } from 'three'
 import { ArrowLeft, Check, ChevronRight, MousePointer2, RotateCcw, Search, Undo2, X } from 'lucide-react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
+import modelCatalog from '../models/models.json'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
 import './styles.css'
 
-const MODELS = [
-  { id: 'two_way_spiral', name: 'Two Way Spiral', file: new URL('../models/two_way_spiral.glb', import.meta.url).href, rings: 16, note: 'A compact, kinetic weave' },
-  { id: 'rosetta', name: 'Rosetta', file: new URL('../models/rosetta.glb', import.meta.url).href, rings: 44, note: 'An intricate radial composition' },
-]
+const modelFiles = import.meta.glob('../models/*.glb', { eager: true, query: '?url', import: 'default' })
+const thumbnailFiles = import.meta.glob('./assets/thumbnails/*.webp', { eager: true, query: '?url', import: 'default' })
+const MODELS = modelCatalog.map((model) => ({
+  ...model,
+  file: modelFiles[`../models/${model.file}`],
+  thumbnail: thumbnailFiles[`./assets/thumbnails/${model.thumbnail}`],
+}))
 
 const COLORS = Object.entries(paletteData).map(([key, value]) => ({
   key,
@@ -23,8 +28,9 @@ function Loader() {
   return <Html center><div className="loader" /></Html>
 }
 
-function ModelObject({ file, colors, selected, onSelect, preview = false }) {
+function ModelObject({ file, colors, selected, onSelect, controls, preview = false, onFramed }) {
   const { scene } = useGLTF(file)
+  const { camera, size } = useThree()
   const prepared = useMemo(() => {
     const copy = scene.clone(true)
     copy.traverse((item) => {
@@ -48,6 +54,27 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
     })
     return copy
   }, [scene])
+
+  useLayoutEffect(() => {
+    if (!controls || !size.width || !size.height) return
+    const sphere = new Box3().setFromObject(prepared).getBoundingSphere({ center: new Vector3(), radius: 0 })
+    const verticalFov = MathUtils.degToRad(camera.fov)
+    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect)
+    const limitingFov = Math.min(verticalFov, horizontalFov)
+    const distance = (sphere.radius / Math.sin(limitingFov / 2)) * (preview ? 1.45 : 1.5)
+    const direction = new Vector3(...(preview ? [4, 3, 5] : [4.5, 3.2, 5.8])).normalize()
+
+    camera.position.copy(sphere.center).add(direction.multiplyScalar(distance))
+    camera.near = Math.max(0.01, distance - sphere.radius * 3)
+    camera.far = distance + sphere.radius * 8
+    camera.zoom = 1
+    camera.updateProjectionMatrix()
+    controls.target.copy(sphere.center)
+    controls.minDistance = sphere.radius * 1.25
+    controls.maxDistance = sphere.radius * 12
+    controls.update()
+    onFramed?.()
+  }, [prepared, camera, controls, preview, size.width, size.height, onFramed])
 
   useEffect(() => {
     prepared.traverse((item) => {
@@ -82,7 +109,8 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
   )
 }
 
-function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview = false }) {
+function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview = false, thumbnail = false, onFramed }) {
+  const [controls, setControls] = useState(null)
   return (
     <Canvas
       camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }}
@@ -91,16 +119,37 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
     >
       <color attach="background" args={[preview ? '#212121' : '#181818']} />
       <ambientLight intensity={0.8} />
+      <hemisphereLight args={['#d7e3ff', '#28231f', 1.1]} />
       <directionalLight position={[5, 8, 5]} intensity={2.2} />
       <directionalLight position={[-4, 2, -4]} intensity={0.8} color="#aebbd4" />
       <Suspense fallback={<Loader />}>
-        <Bounds fit clip observe margin={preview ? 1.2 : 1.35}>
-          <ModelObject file={model.file} colors={colors} selected={selected} onSelect={onSelect} preview={preview} />
-        </Bounds>
+        <ModelObject file={model.file} colors={colors} selected={selected} onSelect={onSelect} controls={controls} preview={preview} onFramed={onFramed} />
         <Environment preset="studio" />
       </Suspense>
-      <OrbitControls makeDefault enablePan={false} autoRotate={preview} autoRotateSpeed={1.2} minDistance={2} maxDistance={12} />
+      <OrbitControls ref={setControls} makeDefault enablePan={false} enableZoom={!preview} autoRotate={preview && !thumbnail} autoRotateSpeed={1.2} />
     </Canvas>
+  )
+}
+
+function ModelCard({ model, index, onOpen }) {
+  const [interactive, setInteractive] = useState(false)
+  return (
+    <article className="model-card">
+      <div className="card-index">{String(index + 1).padStart(2, '0')}</div>
+      <div className="model-preview">
+        {interactive
+          ? <Scene model={model} preview />
+          : model.thumbnail
+            ? <img src={model.thumbnail} alt={`${model.name} weave`} />
+            : <div className="thumbnail-missing">Thumbnail unavailable</div>}
+        {!interactive && <button className="preview-button" type="button" onClick={() => setInteractive(true)}>Interactive preview</button>}
+      </div>
+      <button className="card-copy" type="button" onClick={() => onOpen(model)}>
+        <div><h2>{model.name}</h2><p>{model.subtitle}</p></div>
+        <span className="open-button"><ChevronRight /></span>
+      </button>
+      <div className="card-meta"><span>{model.rings} rings</span><span>360° preview available</span></div>
+    </article>
   )
 }
 
@@ -135,17 +184,7 @@ function Home({ onOpen }) {
       <section className="model-section">
         <div className="section-heading"><span>Select a model</span><span>{MODELS.length} designs</span></div>
         <div className="model-grid">
-          {MODELS.map((model, index) => (
-            <article className="model-card" key={model.id}>
-              <div className="card-index">0{index + 1}</div>
-              <div className="model-preview"><Scene model={model} preview /></div>
-              <button className="card-copy" type="button" onClick={() => onOpen(model)}>
-                <div><h2>{model.name}</h2><p>{model.note}</p></div>
-                <span className="open-button"><ChevronRight /></span>
-              </button>
-              <div className="card-meta"><span>{model.rings} rings</span><span>360° preview</span></div>
-            </article>
-          ))}
+          {MODELS.map((model, index) => <ModelCard model={model} index={index} onOpen={onOpen} key={model.id} />)}
         </div>
       </section>
       <footer className="site-footer">
@@ -267,4 +306,11 @@ function App() {
   return model ? <Editor model={model} onBack={back} /> : <Home onOpen={open} />
 }
 
-createRoot(document.getElementById('root')).render(<App />)
+function ThumbnailPage({ model }) {
+  const markReady = () => setTimeout(() => { document.documentElement.dataset.thumbnailReady = 'true' }, 700)
+  return <div className="thumbnail-capture"><Scene model={model} preview thumbnail onFramed={markReady} /></div>
+}
+
+const thumbnailId = new URLSearchParams(location.search).get('thumbnail')
+const thumbnailModel = MODELS.find((model) => model.id === thumbnailId)
+createRoot(document.getElementById('root')).render(thumbnailModel ? <ThumbnailPage model={thumbnailModel} /> : <App />)
