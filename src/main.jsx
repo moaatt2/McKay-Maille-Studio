@@ -148,7 +148,10 @@ function ModelCard({ model, index, onOpen }) {
         <div><h2>{model.name}</h2><p>{model.subtitle}</p></div>
         <span className="open-button"><ChevronRight /></span>
       </button>
-      <div className="card-meta"><span>{model.rings} rings</span><span>360° preview available</span></div>
+      <div className="card-meta">
+        <span>{model.rings} rings</span>
+        {model.postUrl && <a href={model.postUrl}>View weave post ↗</a>}
+      </div>
     </article>
   )
 }
