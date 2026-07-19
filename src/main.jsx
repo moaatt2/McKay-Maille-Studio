@@ -362,10 +362,11 @@ function Editor({ model, onBack }) {
     })
     setPaletteOpen(true)
   }
-  const selectGroup = (rings) => {
+  const selectGroup = (rings, openPalette = true) => {
     setSelected([...rings])
-    setPaletteOpen(true)
+    setPaletteOpen(openPalette)
   }
+  const activeGroup = model.groups.find((group) => group.rings.length === selected.length && group.rings.every((ring) => selected.includes(ring)))
   const selectedColors = [...new Set(selected.map((index) => colors[index]))]
   const current = selectedColors.length === 1 ? selectedColors[0] : null
   const selectionFill = current || 'conic-gradient(#ffb000, #4085b8, #b5546a, #ffb000)'
@@ -380,6 +381,10 @@ function Editor({ model, onBack }) {
       <div className="workspace">
         <section className="viewport">
           <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
+          {model.groups.length > 0 && <div className="model-groups">
+            <small>Ring Groups</small>
+            <div>{model.groups.map((group) => <button className={activeGroup?.id === group.id ? 'active' : ''} type="button" key={group.id} onClick={() => selectGroup(group.rings, false)}><span>{group.name}</span><em>{group.rings.length}</em></button>)}</div>
+          </div>}
           <div className="tip">
             <MousePointer2 size={15} />
             <span className="desktop-tip">Click to select · Shift-click to add · Ctrl-click to remove · Drag to rotate</span>

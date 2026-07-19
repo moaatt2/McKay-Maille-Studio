@@ -73,6 +73,7 @@ button { color: inherit; }
 .viewport { position: relative; min-width: 0; }
 .tip { position: absolute; left: 50%; bottom: 23px; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; padding: 10px 14px; white-space: nowrap; background: #292923e8; color: #f7f5ef; border-radius: 20px; font-size: 10px; }
 .mobile-tip { display: none; }
+.model-groups { display: none; }
 .palette-wrap { min-width: 0; min-height: 0; height: 100%; overflow: hidden; }
 .palette-panel { height: 100%; min-height: 0; overflow: hidden; display: flex; flex-direction: column; padding: 28px 23px 0; background: #faf9f5; border-left: 1px solid #d7d4cc; }
 .panel-title { display: flex; justify-content: space-between; }
@@ -222,12 +223,20 @@ button { color: inherit; }
   .header-actions .reset-button { display: none; }
   .workspace { display: block; height: calc(100vh - 62px); }
   .viewport { height: 100%; }
+  .model-groups { position: absolute; z-index: 4; top: 14px; left: 14px; right: 14px; display: block; padding: 10px; overflow: hidden; border: 1px solid #404040; background: #212121e8; backdrop-filter: blur(8px); }
+  .model-groups > small { display: block; margin-bottom: 7px; color: #999; font-size: 8px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .model-groups > div { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .model-groups > div::-webkit-scrollbar { display: none; }
+  .model-groups button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; padding: 7px 9px; color: #bbb; cursor: pointer; border: 1px solid #404040; border-radius: 16px; background: #181818; font-size: 9px; }
+  .model-groups button.active { color: #181818; border-color: #79b8ff; background: #79b8ff; }
+  .model-groups button em { display: grid; place-items: center; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: #ffffff18; font-size: 8px; font-style: normal; }
   .tip { bottom: 84px; }
   .desktop-tip { display: none; }
   .mobile-tip { display: inline; }
   .palette-wrap { position: fixed; z-index: 10; inset: 62px 0 0; transform: translateY(105%); transition: transform .3s ease; }
   .palette-wrap.open { transform: translateY(0); }
   .palette-panel { padding: 25px 20px 0; border: 0; }
+  .palette-panel .related-groups { display: none; }
   .mobile-close { display: block; }
   .mobile-picker { position: fixed; z-index: 8; left: 16px; right: 16px; bottom: 14px; width: calc(100% - 32px); border: 1px solid #d2cfc7; background: #faf9f5; box-shadow: 0 8px 30px #302d2825; padding: 10px 13px; display: flex; align-items: center; gap: 10px; text-align: left; }
   .mobile-picker > span { width: 34px; height: 34px; border-radius: 50%; }
