@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import { Box3, MathUtils, Vector3 } from 'three'
-import { ArrowLeft, Check, ChevronRight, Download, MousePointer2, Plus, RotateCcw, Search, Trash2, Undo2, X } from 'lucide-react'
+import { ArrowLeft, Check, ChevronRight, Copy, Download, Mail, MousePointer2, Plus, RotateCcw, Search, Share2, Trash2, Undo2, X } from 'lucide-react'
+import { QRCodeSVG } from 'qrcode.react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
 import modelCatalog from '../models/models.json'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
@@ -25,6 +26,28 @@ const COLORS = Object.entries(paletteData).map(([key, value]) => ({
   name: key.replaceAll('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
   finish: key.startsWith('matte_') ? 'Matte' : 'Bright',
 }))
+
+function encodeDesign(colors) {
+  const unique = []
+  const pattern = colors.map((color) => {
+    const hex = color.replace('#', '').toUpperCase()
+    let index = unique.indexOf(hex)
+    if (index === -1) { unique.push(hex); index = unique.length - 1 }
+    return index.toString(36)
+  }).join('')
+  return `1_${unique.join('-')}_${pattern}`
+}
+
+function decodeDesign(value, ringCount) {
+  if (!value) return null
+  const match = value.match(/^1_([0-9a-f-]+)_([0-9a-z]+)$/i)
+  if (!match || match[2].length !== ringCount) return null
+  const colors = match[1].split('-')
+  if (!colors.length || colors.some((color) => !/^[0-9a-f]{6}$/i.test(color))) return null
+  const design = [...match[2]].map((character) => colors[parseInt(character, 36)])
+  if (design.some((color) => !color)) return null
+  return design.map((color) => `#${color.toUpperCase()}`)
+}
 
 function Loader() {
   return <Html center><div className="loader" /></Html>
@@ -249,12 +272,66 @@ function Palette({ current, onPick, onClose, groups = [], onSelectGroup }) {
   )
 }
 
+function ShareDialog({ model, colors, onClose }) {
+  const [copied, setCopied] = useState(false)
+  const shareUrl = useMemo(() => {
+    const url = new URL(`/model/${model.id}`, location.origin)
+    url.searchParams.set('design', encodeDesign(colors))
+    return url.toString()
+  }, [model.id, colors])
+  const shareText = `My ${model.name} design from McKay Maille`
+
+  useEffect(() => {
+    const onKeyDown = (event) => { if (event.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(shareUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1800)
+  }
+  const nativeShare = async () => {
+    try { await navigator.share({ title: `${model.name} design`, text: shareText, url: shareUrl }) } catch {}
+  }
+  return (
+    <div className="share-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
+      <section className="share-dialog" role="dialog" aria-modal="true" aria-labelledby="share-title">
+        <div className="share-heading">
+          <div><p className="eyebrow">Finished design</p><h2 id="share-title">Share your {model.name}</h2></div>
+          <button className="icon-button" type="button" onClick={onClose} aria-label="Close share dialog"><X /></button>
+        </div>
+        <p className="share-intro">Anyone with this link can open your exact ring colours. The colors are stored in the link itself.</p>
+        <div className="share-content">
+          <div className="qr-panel">
+            <div className="qr-code"><QRCodeSVG value={shareUrl} size={190} level="M" marginSize={2} bgColor="#ffffff" fgColor="#181818" /></div>
+            <strong>Scan to open design</strong>
+            <small>Point a phone camera at this code.</small>
+          </div>
+          <div className="share-options">
+            <label htmlFor="share-link">Design link</label>
+            <div className="share-link"><input id="share-link" value={shareUrl} readOnly /><button type="button" onClick={copy}>{copied ? <Check size={16} /> : <Copy size={16} />} {copied ? 'Copied' : 'Copy'}</button></div>
+            {'share' in navigator && <button className="native-share" type="button" onClick={nativeShare}><Share2 size={17} /> Share from this device</button>}
+            <span className="share-label">Send with</span>
+            <div className="social-actions">
+              <button type="button" onClick={() => { location.href = `mailto:?subject=${encodeURIComponent(`${model.name} design`)}&body=${encodeURIComponent(`${shareText}\n\n${shareUrl}`)}` }}><Mail size={18} /> Email</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
 function Editor({ model, onBack }) {
-  const initial = useMemo(() => Array(model.rings).fill('#717678'), [model])
+  const blank = useMemo(() => Array(model.rings).fill('#717678'), [model])
+  const initial = useMemo(() => decodeDesign(new URLSearchParams(location.search).get('design'), model.rings) || blank, [model, blank])
   const [colors, setColors] = useState(initial)
   const [selected, setSelected] = useState([0])
   const [history, setHistory] = useState([])
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
   const pick = (hex) => {
     setHistory((h) => [...h, colors])
     setColors((old) => old.map((c, i) => selected.includes(i) ? hex : c))
@@ -276,7 +353,7 @@ function Editor({ model, onBack }) {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [history])
-  const reset = () => { setHistory((h) => [...h, colors]); setColors(initial) }
+  const reset = () => { setHistory((h) => [...h, colors]); setColors(blank) }
   const selectRing = (index, action = {}) => {
     setSelected((old) => {
       if (action.remove) return old.filter((item) => item !== index)
@@ -298,7 +375,7 @@ function Editor({ model, onBack }) {
       <header className="editor-header">
         <button className="back" onClick={onBack}><ArrowLeft size={18} /> All models</button>
         <div className="editor-title"><span>{model.name}</span><small>{model.rings} rings</small></div>
-        <div className="header-actions"><button onClick={undo} disabled={!history.length}><Undo2 size={17} /> Undo</button><button onClick={reset}><RotateCcw size={17} /> Reset</button></div>
+        <div className="header-actions"><button onClick={undo} disabled={!history.length}><Undo2 size={17} /> Undo</button><button className="reset-button" onClick={reset}><RotateCcw size={17} /> Reset</button><button className="share-button" onClick={() => setShareOpen(true)}><Share2 size={17} /> Share</button></div>
       </header>
       <div className="workspace">
         <section className="viewport">
@@ -314,6 +391,7 @@ function Editor({ model, onBack }) {
         </div>
       </div>
       <button className="mobile-picker" onClick={() => setPaletteOpen(true)}><span style={{ background: selectionFill }} /><div><small>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</small><strong>{currentName}</strong></div><ChevronRight /></button>
+      {shareOpen && <ShareDialog model={model} colors={colors} onClose={() => setShareOpen(false)} />}
     </main>
   )
 }
@@ -402,7 +480,7 @@ function App() {
   }, [])
   const open = (next) => { history.pushState({}, '', `/model/${next.id}`); setModel(next) }
   const back = () => { history.pushState({}, '', '/'); setModel(null) }
-  return model ? <Editor model={model} onBack={back} /> : <Home onOpen={open} />
+  return model ? <Editor key={model.id} model={model} onBack={back} /> : <Home onOpen={open} />
 }
 
 function ThumbnailPage({ model }) {
