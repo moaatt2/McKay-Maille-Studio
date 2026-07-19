@@ -71,7 +71,11 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
 
 function Scene({ model, colors = [], selected = -1, onSelect = () => {}, preview = false }) {
   return (
-    <Canvas camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }} dpr={[1, 1.8]} gl={{ antialias: true }}>
+    <Canvas
+      camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }}
+      dpr={preview ? [1, 2] : [1, 2.5]}
+      gl={{ antialias: true, powerPreference: 'high-performance' }}
+    >
       <color attach="background" args={[preview ? '#212121' : '#181818']} />
       <ambientLight intensity={0.8} />
       <directionalLight position={[5, 8, 5]} intensity={2.2} />
