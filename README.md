@@ -43,3 +43,7 @@ Run `npm run thumbnails` to generate every thumbnail, or `npm run thumbnails -- 
 ## Ring groups
 
 While running `npm run dev`, open `/group-editor/model_id` to visually create and edit related-ring groups. Download the result and replace the matching `models/model_id.groups.json` sidecar. The authoring route is excluded from production builds.
+
+## AI disclosure
+
+This project was vibe coded with OpenAI Codex as an experiment in building something with technologies the project owner is still learning. The project owner provided the ideas, requirements, visual direction, hands-on testing, and configuration changes, while AI generated and revised the code and documentation. The project is a static site, handles no sensitive information, and is evaluated through hands-on testing rather than source-code review.
