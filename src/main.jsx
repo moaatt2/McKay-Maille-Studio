@@ -54,7 +54,7 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
       const index = item.userData.ringIndex
       if (!item.isMesh || index === undefined) return
       item.material.color.set(item.userData.isOutline
-        ? (index === selected ? '#ffb000' : '#000000')
+        ? (selected.includes(index) ? '#ffb000' : '#000000')
         : (colors[index] || '#717678'))
       if (item.material.emissive) {
         item.material.emissive.set('#000000')
@@ -69,7 +69,10 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
       onClick={preview ? undefined : (event) => {
         event.stopPropagation()
         const index = event.object.userData.ringIndex
-        if (index !== undefined) onSelect(index)
+        if (index !== undefined) onSelect(index, {
+          add: event.nativeEvent.shiftKey,
+          remove: event.nativeEvent.ctrlKey || event.nativeEvent.metaKey,
+        })
       }}
       onPointerOver={preview ? undefined : (event) => {
         if (event.object.userData.ringIndex !== undefined) document.body.style.cursor = 'pointer'
@@ -79,7 +82,7 @@ function ModelObject({ file, colors, selected, onSelect, preview = false }) {
   )
 }
 
-function Scene({ model, colors = [], selected = -1, onSelect = () => {}, preview = false }) {
+function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview = false }) {
   return (
     <Canvas
       camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }}
@@ -204,20 +207,30 @@ function Palette({ current, onPick, onClose }) {
 function Editor({ model, onBack }) {
   const initial = useMemo(() => Array(model.rings).fill('#717678'), [model])
   const [colors, setColors] = useState(initial)
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState([0])
   const [history, setHistory] = useState([])
   const [paletteOpen, setPaletteOpen] = useState(false)
   const pick = (hex) => {
     setHistory((h) => [...h, colors])
-    setColors((old) => old.map((c, i) => i === selected ? hex : c))
+    setColors((old) => old.map((c, i) => selected.includes(i) ? hex : c))
   }
   const undo = () => {
     if (!history.length) return
     setColors(history.at(-1)); setHistory((h) => h.slice(0, -1))
   }
   const reset = () => { setHistory((h) => [...h, colors]); setColors(initial) }
-  const current = colors[selected]
-  const currentName = COLORS.find((c) => c.hex === current)?.name || 'Titanium Grey'
+  const selectRing = (index, action = {}) => {
+    setSelected((old) => {
+      if (action.remove) return old.filter((item) => item !== index)
+      if (action.add) return old.includes(index) ? old : [...old, index]
+      return [index]
+    })
+    setPaletteOpen(true)
+  }
+  const selectedColors = [...new Set(selected.map((index) => colors[index]))]
+  const current = selectedColors.length === 1 ? selectedColors[0] : null
+  const selectionFill = current || 'conic-gradient(#ffb000, #4085b8, #b5546a, #ffb000)'
+  const currentName = !selected.length ? 'No rings selected' : current ? (COLORS.find((c) => c.hex === current)?.name || 'Titanium Grey') : 'Mixed colours'
   return (
     <main className="editor">
       <header className="editor-header">
@@ -227,15 +240,15 @@ function Editor({ model, onBack }) {
       </header>
       <div className="workspace">
         <section className="viewport">
-          <Scene model={model} colors={colors} selected={selected} onSelect={(index) => { setSelected(index); setPaletteOpen(true) }} />
-          <div className="tip"><MousePointer2 size={15} /> Click a ring to colour it · Drag to rotate</div>
-          <div className="ring-chip"><span style={{ background: current }} /><div><small>Selected</small><strong>Ring {selected + 1}</strong></div></div>
+          <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
+          <div className="tip"><MousePointer2 size={15} /> Click to select · Shift-click to add · Ctrl-click to remove · Drag to rotate</div>
+          <div className="ring-chip"><span style={{ background: selectionFill }} /><div><small>Selected</small><strong>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</strong></div></div>
         </section>
         <div className={`palette-wrap ${paletteOpen ? 'open' : ''}`}>
           <Palette current={current} onPick={pick} onClose={() => setPaletteOpen(false)} />
         </div>
       </div>
-      <button className="mobile-picker" onClick={() => setPaletteOpen(true)}><span style={{ background: current }} /><div><small>Ring {selected + 1}</small><strong>{currentName}</strong></div><ChevronRight /></button>
+      <button className="mobile-picker" onClick={() => setPaletteOpen(true)}><span style={{ background: selectionFill }} /><div><small>{selected.length === 1 ? `Ring ${selected[0] + 1}` : `${selected.length} rings`}</small><strong>{currentName}</strong></div><ChevronRight /></button>
     </main>
   )
 }
