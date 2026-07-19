@@ -99,7 +99,7 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
         </Bounds>
         <Environment preset="studio" />
       </Suspense>
-      <OrbitControls makeDefault enablePan={!preview} autoRotate={preview} autoRotateSpeed={1.2} minDistance={2} maxDistance={12} />
+      <OrbitControls makeDefault enablePan={false} autoRotate={preview} autoRotateSpeed={1.2} minDistance={2} maxDistance={12} />
     </Canvas>
   )
 }
