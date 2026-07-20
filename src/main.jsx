@@ -49,6 +49,18 @@ function decodeDesign(value, ringCount) {
   return design.map((color) => `#${color.toUpperCase()}`)
 }
 
+function formatModelConfig(catalog) {
+  const models = catalog.map((model) => {
+    const placeholder = '__GROUPS_PLACEHOLDER__'
+    const groupLines = model.groups.map((group) => `    ${JSON.stringify(group)}`).join(',\n')
+    const groups = groupLines ? `[\n${groupLines}\n  ]` : '[]'
+    const formatted = JSON.stringify({ ...model, groups: placeholder }, null, 2)
+      .replace(`"${placeholder}"`, groups)
+    return formatted.split('\n').map((line) => `  ${line}`).join('\n')
+  })
+  return `[\n${models.join(',\n')}\n]\n`
+}
+
 function Loader() {
   return <Html center><div className="loader" /></Html>
 }
@@ -438,8 +450,8 @@ function GroupEditor({ model }) {
   }
   const updateGroup = (id, changes) => setGroups((old) => old.map((group) => group.id === id ? { ...group, ...changes } : group))
   const download = () => {
-    const payload = JSON.stringify(modelCatalog.map((item) => item.id === model.id ? { ...item, groups } : item), null, 2)
-    const url = URL.createObjectURL(new Blob([`${payload}\n`], { type: 'application/json' }))
+    const payload = formatModelConfig(modelCatalog.map((item) => item.id === model.id ? { ...item, groups } : item))
+    const url = URL.createObjectURL(new Blob([payload], { type: 'application/json' }))
     const anchor = document.createElement('a')
     anchor.href = url
     anchor.download = '_model_config.json'
