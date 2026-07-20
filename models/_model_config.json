@@ -8,10 +8,10 @@
     "postUrl": "https://www.mckaymaille.ca/2025/08/17/two-way-spiral.html",
     "rings": 16,
     "groups": [
-      { "id": "vertical-rings", "name": "Vertical", "rings": [0, 6, 12] },
-      { "id": "horizontal-rings", "name": "Horizontal", "rings": [3, 9, 15] },
-      { "id": "angle-1", "name": "Angle 1", "rings": [1, 5, 7, 11, 13] },
-      { "id": "angle-2", "name": "Angle 2", "rings": [2, 4, 8, 10, 14] }
+      {"id":"vertical-rings","name":"Vertical","rings":[0,6,12]},
+      {"id":"horizontal-rings","name":"Horizontal","rings":[3,9,15]},
+      {"id":"angle-1","name":"Angle 1","rings":[1,5,7,11,13]},
+      {"id":"angle-2","name":"Angle 2","rings":[2,4,8,10,14]}
     ]
   },
   {
@@ -23,12 +23,42 @@
     "postUrl": "https://www.mckaymaille.ca/2025/09/21/rosetta.html",
     "rings": 44,
     "groups": [
-      { "id": "core", "name": "Core", "rings": [0, 1, 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, 22, 23, 26, 27, 30, 31, 34, 35, 38, 39, 42, 43] },
-      { "id": "core-vertical", "name": "Core - Vertical", "rings": [0, 1, 6, 7, 14, 15, 22, 23, 30, 31, 38, 39] },
-      { "id": "core-horizontal", "name": "Core - Horizontal", "rings": [2, 3, 10, 11, 18, 19, 26, 27, 34, 35, 42, 43] },
-      { "id": "wings", "name": "Wings", "rings": [4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 32, 33, 36, 37, 40, 41] },
-      { "id": "wings-vertical", "name": "Wings - Vertical", "rings": [4, 5, 12, 13, 20, 21, 28, 29, 36, 37] },
-      { "id": "wings-horizontal", "name": "Wings - Horizontal", "rings": [8, 9, 16, 17, 24, 25, 32, 33, 40, 41] }
+      {"id":"core","name":"Core","rings":[0,1,2,3,6,7,10,11,14,15,18,19,22,23,26,27,30,31,34,35,38,39,42,43]},
+      {"id":"core-vertical","name":"Core - Vertical","rings":[0,1,6,7,14,15,22,23,30,31,38,39]},
+      {"id":"core-horizontal","name":"Core - Horizontal","rings":[2,3,10,11,18,19,26,27,34,35,42,43]},
+      {"id":"wings","name":"Wings","rings":[4,5,8,9,12,13,16,17,20,21,24,25,28,29,32,33,36,37,40,41]},
+      {"id":"wings-vertical","name":"Wings - Vertical","rings":[4,5,12,13,20,21,28,29,36,37]},
+      {"id":"wings-horizontal","name":"Wings - Horizontal","rings":[8,9,16,17,24,25,32,33,40,41]}
+    ]
+  },
+  {
+    "id": "b_3_unit",
+    "name": "B-3 Unit",
+    "subtitle": "",
+    "file": "b_3_unit.glb",
+    "thumbnail": "b_3_unit.webp",
+    "postUrl": "https://www.mckaymaille.ca/2023/01/28/b-3.html",
+    "rings": 21,
+    "groups": [
+      {"id":"center-spikes","name":"Center Spikes","rings":[0,1,2]},
+      {"id":"center-triangle","name":"Center Triangle","rings":[3,4,5,6,7,8]},
+      {"id":"wings","name":"Wings","rings":[15,16,17,18,19,20]},
+      {"id":"outer-spikes","name":"Outer Spikes","rings":[9,10,11,12,13,14]}
+    ]
+  },
+  {
+    "id": "back_to_work",
+    "name": "Back To Work",
+    "subtitle": "",
+    "file": "back_to_work_earring.glb",
+    "thumbnail": "back_to_work.webp",
+    "postUrl": "https://www.mckaymaille.ca/2023/04/16/back-to-work.html",
+    "rings": 22,
+    "groups": [
+      {"id":"vertical-connectors","name":"Vertical Connectors","rings":[1,2,7,8,13,14,19,20]},
+      {"id":"horizontal-connectors","name":"Horizontal Connectors","rings":[5,6,11,12,17,18]},
+      {"id":"external-connectors","name":"External Connectors","rings":[0,21]},
+      {"id":"wings","name":"Wings","rings":[3,4,9,10,15,16]}
     ]
   }
 ]
