@@ -114,6 +114,13 @@ button { color: inherit; }
 .group-manager { min-height: 0; padding: 28px 24px; overflow-y: auto; border-left: 1px solid #404040; background: #212121; }
 .group-manager h1 { margin: 0 0 8px; font-size: 24px; font-weight: 400; }
 .group-help { margin: 0 0 22px; color: #999; font-size: 12px; line-height: 1.55; }
+.ungrouped-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; padding: 12px; border: 1px solid #404040; background: #181818; }
+.ungrouped-summary > div { display: flex; flex-direction: column; gap: 3px; }
+.ungrouped-summary strong { font-size: 11px; font-weight: 500; }
+.ungrouped-summary small { color: #888; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.ungrouped-summary button { padding: 7px 10px; color: #bbb; cursor: pointer; border: 1px solid #404040; border-radius: 3px; background: #212121; font-size: 10px; }
+.ungrouped-summary button:hover { color: #79b8ff; border-color: #79b8ff; }
+.ungrouped-summary button:disabled { opacity: .35; pointer-events: none; }
 .new-group { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid #404040; }
 .new-group input, .group-row input { min-width: 0; padding: 10px; color: #bbb; border: 1px solid #404040; outline: none; background: #181818; }
 .new-group input:focus, .group-row input:focus { border-color: #79b8ff; }

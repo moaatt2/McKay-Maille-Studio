@@ -413,6 +413,10 @@ function GroupEditor({ model }) {
   const [selected, setSelected] = useState([])
   const [newName, setNewName] = useState('')
   const colors = useMemo(() => Array(model.rings).fill('#717678'), [model])
+  const ungroupedRings = useMemo(() => {
+    const grouped = new Set(groups.flatMap((group) => group.rings))
+    return Array.from({ length: model.rings }, (_, index) => index).filter((index) => !grouped.has(index))
+  }, [groups, model.rings])
 
   const selectRing = (index, action = {}) => {
     setSelected((old) => {
@@ -459,6 +463,13 @@ function GroupEditor({ model }) {
           <p className="eyebrow">Selection</p>
           <h1>{selected.length} {selected.length === 1 ? 'ring' : 'rings'} selected</h1>
           <p className="group-help">Select rings in the model, then create a group or update an existing one.</p>
+          <div className="ungrouped-summary">
+            <div>
+              <strong>Ungrouped rings</strong>
+              <small>{ungroupedRings.length} of {model.rings}</small>
+            </div>
+            <button type="button" disabled={!ungroupedRings.length} onClick={() => setSelected(ungroupedRings)}>Select all</button>
+          </div>
           <form className="new-group" onSubmit={createGroup}>
             <input value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="New group name" />
             <button disabled={!newName.trim() || !selected.length}><Plus size={16} /> Add</button>
