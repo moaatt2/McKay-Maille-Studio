@@ -83,14 +83,21 @@ function ModelObject({ file, colors, selected, onSelect, controls, preview = fal
     if (!controls || !size.width || !size.height) return
     const sphere = new Box3().setFromObject(prepared).getBoundingSphere({ center: new Vector3(), radius: 0 })
     const verticalFov = MathUtils.degToRad(camera.fov)
-    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect)
+    // During a resize, R3F's camera aspect can briefly describe the previous
+    // canvas shape. Use the dimensions that triggered this effect so narrow or
+    // unusually tall viewports are framed with their actual horizontal FOV.
+    const aspect = size.width / size.height
+    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * aspect)
     const limitingFov = Math.min(verticalFov, horizontalFov)
     const distance = (sphere.radius / Math.sin(limitingFov / 2)) * (preview ? 1.45 : 1.5)
     const direction = new Vector3(...(preview ? [4, 3, 5] : [4.5, 3.2, 5.8])).normalize()
 
     camera.position.copy(sphere.center).add(direction.multiplyScalar(distance))
-    camera.near = Math.max(0.01, distance - sphere.radius * 3)
-    camera.far = distance + sphere.radius * 8
+    // Keep the clipping planes valid across the full OrbitControls zoom range.
+    // Basing `near` on the initial fit distance makes it enormous in a tall,
+    // narrow viewport, so zooming in causes the plane to slice through the model.
+    camera.near = Math.max(0.001, sphere.radius * 0.01)
+    camera.far = sphere.radius * 20
     camera.zoom = 1
     camera.updateProjectionMatrix()
     controls.target.copy(sphere.center)
