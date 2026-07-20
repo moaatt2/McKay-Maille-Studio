@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "thumbnails": "node scripts/generate-thumbnails.mjs"
+    "thumbnails": "node scripts/generate-thumbnails.mjs",
+    "count-rings": "node scripts/count-rings.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "4.3.4",

@@ -511,9 +511,28 @@ function ThumbnailPage({ model }) {
   return <div className="thumbnail-capture"><Scene model={model} thumbnail onFramed={markReady} /></div>
 }
 
-const thumbnailId = new URLSearchParams(location.search).get('thumbnail')
+function RingCountProbe({ file }) {
+  const { scene } = useGLTF(file)
+  useEffect(() => {
+    let count = 0
+    scene.traverse((item) => {
+      if (item.isMesh && item.material.name === 'Base Grey') count++
+    })
+    document.documentElement.dataset.ringCount = String(count)
+  }, [scene])
+  return null
+}
+
+function RingCountPage({ file }) {
+  return <Canvas><Suspense fallback={null}><RingCountProbe file={file} /></Suspense></Canvas>
+}
+
+const params = new URLSearchParams(location.search)
+const thumbnailId = params.get('thumbnail')
 const thumbnailModel = MODELS.find((model) => model.id === thumbnailId)
+const ringCountFileName = params.get('ring-count')
+const ringCountFile = ringCountFileName && modelFiles[`../models/${ringCountFileName}`]
 const groupEditorMatch = location.pathname.match(/^\/group-editor\/([^/]+)\/?$/)
 if (groupEditorMatch && !import.meta.env.DEV) history.replaceState({}, '', '/')
 const groupEditorModel = import.meta.env.DEV && groupEditorMatch ? MODELS.find((model) => model.id === groupEditorMatch[1]) : null
-createRoot(document.getElementById('root')).render(thumbnailModel ? <ThumbnailPage model={thumbnailModel} /> : groupEditorModel ? <GroupEditor model={groupEditorModel} /> : <App />)
+createRoot(document.getElementById('root')).render(ringCountFile ? <RingCountPage file={ringCountFile} /> : thumbnailModel ? <ThumbnailPage model={thumbnailModel} /> : groupEditorModel ? <GroupEditor model={groupEditorModel} /> : <App />)

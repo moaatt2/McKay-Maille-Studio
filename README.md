@@ -40,6 +40,8 @@ Add the GLB to `models/`, then add its display name, editable subtitle, blog pos
 
 Run `npm run thumbnails` to generate every thumbnail, or `npm run thumbnails -- model_id` to generate one.
 
+Run `npm run count-rings -- model_id` to count the rings in a model. A GLB filename or filename without the `.glb` extension also works; omit the model to count every GLB in the `models` directory.
+
 ## Ring groups
 
 While running `npm run dev`, open `/group-editor/model_id` to visually create and edit related-ring groups. Download the result and replace `models/_model_config.json`. The authoring route is excluded from production builds.
