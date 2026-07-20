@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright-core'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const catalog = JSON.parse(await readFile(path.join(root, 'models', 'models.json'), 'utf8'))
+const catalog = JSON.parse(await readFile(path.join(root, 'models', '_model_config.json'), 'utf8'))
 const requested = process.argv[2]
 const models = requested ? catalog.filter((model) => model.id === requested) : catalog
 if (!models.length) throw new Error(`No model found with id "${requested}"`)

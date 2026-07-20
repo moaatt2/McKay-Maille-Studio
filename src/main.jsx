@@ -6,18 +6,17 @@ import { Box3, MathUtils, Vector3 } from 'three'
 import { ArrowLeft, Check, ChevronRight, Copy, Download, Mail, MousePointer2, Plus, RotateCcw, Search, Share2, Trash2, Undo2, X } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
 import paletteData from '../palettes/ring_lord_palette_derived.json'
-import modelCatalog from '../models/models.json'
+import modelCatalog from '../models/_model_config.json'
 import socialIconsUrl from './assets/images/minima-social-icons.svg'
 import './styles.css'
 
 const modelFiles = import.meta.glob('../models/*.glb', { eager: true, query: '?url', import: 'default' })
 const thumbnailFiles = import.meta.glob('./assets/thumbnails/*.webp', { eager: true, query: '?url', import: 'default' })
-const groupFiles = import.meta.glob('../models/*.groups.json', { eager: true, import: 'default' })
 const MODELS = modelCatalog.map((model) => ({
   ...model,
   file: modelFiles[`../models/${model.file}`],
   thumbnail: thumbnailFiles[`./assets/thumbnails/${model.thumbnail}`],
-  groups: groupFiles[`../models/${model.id}.groups.json`]?.groups || [],
+  groups: model.groups || [],
 }))
 
 const COLORS = Object.entries(paletteData).map(([key, value]) => ({
@@ -427,11 +426,11 @@ function GroupEditor({ model }) {
   }
   const updateGroup = (id, changes) => setGroups((old) => old.map((group) => group.id === id ? { ...group, ...changes } : group))
   const download = () => {
-    const payload = JSON.stringify({ model: model.id, groups }, null, 2)
+    const payload = JSON.stringify(modelCatalog.map((item) => item.id === model.id ? { ...item, groups } : item), null, 2)
     const url = URL.createObjectURL(new Blob([`${payload}\n`], { type: 'application/json' }))
     const anchor = document.createElement('a')
     anchor.href = url
-    anchor.download = `${model.id}.groups.json`
+    anchor.download = '_model_config.json'
     anchor.click()
     URL.revokeObjectURL(url)
   }
@@ -470,7 +469,7 @@ function GroupEditor({ model }) {
             ))}
             {!groups.length && <p className="no-groups">No groups yet.</p>}
           </div>
-          <p className="save-note">Download and replace <code>models/{model.id}.groups.json</code> when finished.</p>
+          <p className="save-note">Download and replace <code>models/_model_config.json</code> when finished.</p>
         </aside>
       </div>
     </main>
