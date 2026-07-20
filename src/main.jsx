@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
+import { Environment, Html, TrackballControls, useGLTF } from '@react-three/drei'
 import { Box3, MathUtils, Vector3 } from 'three'
 import { ArrowLeft, Check, ChevronRight, Copy, Download, Mail, MousePointer2, Plus, RotateCcw, Search, Share2, Trash2, Undo2, X } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
@@ -158,7 +158,7 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
         <ModelObject file={model.file} colors={colors} selected={selected} onSelect={onSelect} controls={controls} preview={preview} onFramed={onFramed} />
         <Environment preset="studio" />
       </Suspense>
-      <OrbitControls ref={setControls} makeDefault enablePan={false} enableZoom={!preview} autoRotate={preview && !thumbnail} autoRotateSpeed={1.2} />
+      <TrackballControls ref={setControls} makeDefault noPan noZoom={preview} staticMoving />
     </Canvas>
   )
 }
