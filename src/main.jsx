@@ -25,6 +25,7 @@ const COLORS = Object.entries(paletteData).map(([key, value]) => ({
   name: key.replaceAll('_', ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
   finish: key.startsWith('matte_') ? 'Matte' : 'Bright',
 }))
+const CAMERA_DIRECTION = [0, 0, 1]
 
 function encodeDesign(colors) {
   const unique = []
@@ -90,7 +91,7 @@ function ModelObject({ file, colors, selected, onSelect, controls, preview = fal
     const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * aspect)
     const limitingFov = Math.min(verticalFov, horizontalFov)
     const distance = (sphere.radius / Math.sin(limitingFov / 2)) * (preview ? 1.45 : 1.5)
-    const direction = new Vector3(...(preview ? [4, 3, 5] : [4.5, 3.2, 5.8])).normalize()
+    const direction = new Vector3(...CAMERA_DIRECTION)
 
     camera.position.copy(sphere.center).add(direction.multiplyScalar(distance))
     // Keep the clipping planes valid across the full OrbitControls zoom range.
@@ -144,7 +145,7 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
   const [controls, setControls] = useState(null)
   return (
     <Canvas
-      camera={{ position: preview ? [4, 3, 5] : [4.5, 3.2, 5.8], fov: 38 }}
+      camera={{ position: CAMERA_DIRECTION, fov: 38 }}
       dpr={preview ? [1, 2] : [1, 2.5]}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
     >
