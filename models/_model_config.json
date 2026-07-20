@@ -2,7 +2,7 @@
   {
     "id": "two_way_spiral",
     "name": "Two-Way Spiral",
-    "subtitle": "A compact, kinetic weave",
+    "subtitle": "Criss-crossing spirals",
     "file": "two_way_spiral.glb",
     "thumbnail": "two_way_spiral.webp",
     "postUrl": "https://www.mckaymaille.ca/2025/08/17/two-way-spiral.html",
@@ -17,7 +17,7 @@
   {
     "id": "rosetta",
     "name": "Rosetta",
-    "subtitle": "An intricate radial composition",
+    "subtitle": "Fun floral chain",
     "file": "rosetta.glb",
     "thumbnail": "rosetta.webp",
     "postUrl": "https://www.mckaymaille.ca/2025/09/21/rosetta.html",
@@ -34,7 +34,7 @@
   {
     "id": "b_3_unit",
     "name": "B-3 Unit",
-    "subtitle": "",
+    "subtitle": "Small compact unit",
     "file": "b_3_unit.glb",
     "thumbnail": "b_3_unit.webp",
     "postUrl": "https://www.mckaymaille.ca/2023/01/28/b-3.html",
@@ -49,7 +49,7 @@
   {
     "id": "back_to_work",
     "name": "Back To Work",
-    "subtitle": "",
+    "subtitle": "Spikey chain",
     "file": "back_to_work_earring.glb",
     "thumbnail": "back_to_work.webp",
     "postUrl": "https://www.mckaymaille.ca/2023/04/16/back-to-work.html",
