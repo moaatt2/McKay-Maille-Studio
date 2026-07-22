@@ -60,5 +60,21 @@
       {"id":"external-connectors","name":"External Connectors","rings":[0,21]},
       {"id":"wings","name":"Wings","rings":[3,4,9,10,15,16]}
     ]
+  },
+  {
+    "id": "spinal_elf",
+    "name": "Spinal Elf",
+    "subtitle": "Surgically guaranteed fun",
+    "file": "spinal_elf_earring.glb",
+    "thumbnail": "spinal_elf.webp",
+    "postUrl": "https://www.mckaymaille.ca/2023/05/14/spinal-elf.html",
+    "rings": 36,
+    "groups": [
+      {"id":"connectors-center","name":"Connectors - Center","rings":[1,2,7,8,13,14,19,20,25,26]},
+      {"id":"connectors-outer","name":"Connectors - Outer","rings":[4,5,10,11,16,17,22,23]},
+      {"id":"connectors-spinal","name":"Connectors - Spinal","rings":[28,29,30,31,32,33,34,35]},
+      {"id":"horizontal-front","name":"Horizontal - Front","rings":[0,6,12,18,24]},
+      {"id":"horizontal-back","name":"Horizontal - Back","rings":[3,9,15,21,27]}
+    ]
   }
 ]
