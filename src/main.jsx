@@ -153,7 +153,7 @@ function ModelObject({ file, colors, selected, onSelect, controls, preview = fal
   )
 }
 
-function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview = false, thumbnail = false, onFramed }) {
+function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview = false, thumbnail = false, onFramed, rotateSpeed = 4 }) {
   const [controls, setControls] = useState(null)
   return (
     <Canvas
@@ -170,7 +170,7 @@ function Scene({ model, colors = [], selected = [], onSelect = () => {}, preview
         <ModelObject file={model.file} colors={colors} selected={selected} onSelect={onSelect} controls={controls} preview={preview} onFramed={onFramed} />
         <Environment preset="studio" />
       </Suspense>
-      <TrackballControls ref={setControls} makeDefault noPan noZoom={preview} staticMoving />
+      <TrackballControls ref={setControls} makeDefault noPan noZoom={preview} rotateSpeed={rotateSpeed} staticMoving />
     </Canvas>
   )
 }
@@ -351,6 +351,11 @@ function Editor({ model, onBack }) {
   const [history, setHistory] = useState([])
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
+  const [rotateSpeed, setRotateSpeed] = useState(() => {
+    const saved = Number(localStorage.getItem('model-rotate-speed'))
+    return saved >= 1 && saved <= 8 ? saved : 4
+  })
+  useEffect(() => { localStorage.setItem('model-rotate-speed', String(rotateSpeed)) }, [rotateSpeed])
   const pick = (hex) => {
     setHistory((h) => [...h, colors])
     setColors((old) => old.map((c, i) => selected.includes(i) ? hex : c))
@@ -399,7 +404,12 @@ function Editor({ model, onBack }) {
       </header>
       <div className="workspace">
         <section className="viewport">
-          <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} />
+          <Scene model={model} colors={colors} selected={selected} onSelect={selectRing} rotateSpeed={rotateSpeed} />
+          <label className="sensitivity-control">
+            <span>Rotation speed</span>
+            <input type="range" min="1" max="8" step="0.5" value={rotateSpeed} onChange={(event) => setRotateSpeed(Number(event.target.value))} />
+            <output>{rotateSpeed}×</output>
+          </label>
           {model.groups.length > 0 && <div className="model-groups">
             <small>Ring Groups</small>
             <div>{model.groups.map((group) => <button className={activeGroup?.id === group.id ? 'active' : ''} type="button" key={group.id} onClick={() => selectGroup(group.rings, false)}><span>{group.name}</span><em>{group.rings.length}</em></button>)}</div>

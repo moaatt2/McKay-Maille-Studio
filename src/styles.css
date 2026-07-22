@@ -71,6 +71,9 @@ button { color: inherit; }
 .header-actions button:disabled { opacity: .35; }
 .workspace { height: calc(100vh - 72px); display: grid; grid-template-columns: 1fr 340px; }
 .viewport { position: relative; min-width: 0; }
+.sensitivity-control { position: absolute; z-index: 4; left: calc(50% + 250px); bottom: 23px; display: flex; align-items: center; gap: 9px; padding: 9px 12px; color: #bbb; border: 1px solid #404040; border-radius: 20px; background: #212121e8; backdrop-filter: blur(8px); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.sensitivity-control input { width: 100px; accent-color: #79b8ff; cursor: pointer; }
+.sensitivity-control output { min-width: 24px; color: #79b8ff; font-variant-numeric: tabular-nums; }
 .tip { position: absolute; left: 50%; bottom: 23px; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; padding: 10px 14px; white-space: nowrap; background: #292923e8; color: #f7f5ef; border-radius: 20px; font-size: 10px; }
 .mobile-tip { display: none; }
 .model-groups { display: none; }
@@ -201,6 +204,10 @@ button { color: inherit; }
 .mobile-picker small { color: #999; }
 .loader { border-color: #404040; border-top-color: #79b8ff; }
 
+@media (min-width: 761px) and (max-width: 1200px) {
+  .sensitivity-control { left: 50%; bottom: 67px; transform: translateX(-50%); }
+}
+
 @media (max-width: 760px) {
   .home { padding: 0 20px 45px; }
   .home-header { height: 68px; }
@@ -231,6 +238,9 @@ button { color: inherit; }
   .header-actions .reset-button { display: none; }
   .workspace { display: block; height: calc(100vh - 62px); }
   .viewport { height: 100%; }
+  .sensitivity-control { top: auto; right: 16px; bottom: 132px; left: auto; }
+  .sensitivity-control span { display: none; }
+  .sensitivity-control input { width: 82px; }
   .model-groups { position: absolute; z-index: 4; top: 14px; left: 14px; right: 14px; display: block; padding: 10px; overflow: hidden; border: 1px solid #404040; background: #212121e8; backdrop-filter: blur(8px); }
   .model-groups > small { display: block; margin-bottom: 7px; color: #999; font-size: 8px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
   .model-groups > div { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
