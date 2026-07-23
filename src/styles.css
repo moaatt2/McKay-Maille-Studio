@@ -224,6 +224,7 @@ button { color: inherit; }
   .page-link { display: block; margin: 0 0 0 20px !important; padding: 5px 10px; }
   .hero { padding: 55px 0 45px; }
   .hero h1 { font-size: clamp(48px, 15vw, 70px); }
+  .hero h1 > span, .hero h1 > em { display: block; }
   .intro { font-size: 14px; }
   .model-grid { grid-template-columns: 1fr; }
   .model-preview { height: 280px; }

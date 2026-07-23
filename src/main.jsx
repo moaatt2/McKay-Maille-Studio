@@ -220,9 +220,8 @@ function Home({ onOpen }) {
         </div>
       </header>
       <section className="hero">
-        <p className="eyebrow">Interactive colour studio</p>
-        <h1>Choose a weave.<br /><em>Make it yours.</em></h1>
-        <p className="intro">Explore each ring, compose your colour story, and preview the finished piece from every angle.</p>
+        <h1><span>Select</span>{' '}<em>Colour</em>{' '}<span>Share</span></h1>
+        <p className="intro"><strong>Select</strong> a weave, <strong>colour</strong> each ring, and <strong>share</strong> your design with the world.</p>
       </section>
       <section className="model-section">
         <div className="section-heading"><span>Select a model</span><span>{MODELS.length} designs</span></div>
