@@ -76,5 +76,18 @@
       {"id":"horizontal-front","name":"Horizontal - Front","rings":[0,6,12,18,24]},
       {"id":"horizontal-back","name":"Horizontal - Back","rings":[3,9,15,21,27]}
     ]
+  },
+  {
+    "id": "half_persian_3_in_1",
+    "name": "Half Persian 3-in-1",
+    "subtitle": "Two-tone treat",
+    "file": "half_persian_3_in_1.glb",
+    "thumbnail": "half_persian_3_in_1.webp",
+    "postUrl": "https://www.mckaymaille.ca/2023/02/05/half-persian-3-in-1.html",
+    "rings": 17,
+    "groups": [
+      {"id":"top","name":"Top","rings":[0,2,4,6,8,10,12,14,16]},
+      {"id":"bottom","name":"Bottom","rings":[1,3,5,7,9,11,13,15]}
+    ]
   }
 ]
