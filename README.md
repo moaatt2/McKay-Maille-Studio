@@ -25,6 +25,13 @@ npm run build
 npm run preview
 ```
 
+To run the application as a local server available to other machines on your network:
+
+```sh
+npm run dev -- --host 0.0.0.0 --port 5174
+```
+
+
 ## Trying the app
 
 1. Choose a weave from the home page.
