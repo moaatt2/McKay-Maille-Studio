@@ -3,15 +3,15 @@
     "id": "two_way_spiral",
     "name": "Two-Way Spiral",
     "subtitle": "Criss-crossing spirals",
-    "file": "two_way_spiral.glb",
+    "file": "two_way_spiral_earring.glb",
     "thumbnail": "two_way_spiral.webp",
     "postUrl": "https://www.mckaymaille.ca/2025/08/17/two-way-spiral.html",
-    "rings": 16,
+    "rings": 10,
     "groups": [
-      {"id":"vertical-rings","name":"Vertical","rings":[0,6,12]},
-      {"id":"horizontal-rings","name":"Horizontal","rings":[3,9,15]},
-      {"id":"angle-1","name":"Angle 1","rings":[1,5,7,11,13]},
-      {"id":"angle-2","name":"Angle 2","rings":[2,4,8,10,14]}
+      {"id":"horizontal-rings","name":"Horizontal Rings","rings":[0,6]},
+      {"id":"vertical-rings","name":"Vertical Rings","rings":[3,9]},
+      {"id":"angle-1","name":"Angle 1","rings":[2,4,8]},
+      {"id":"angle-2","name":"Angle 2","rings":[1,5,7]}
     ]
   },
   {
