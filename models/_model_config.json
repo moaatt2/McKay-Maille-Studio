@@ -103,5 +103,19 @@
       {"id":"center-vertical","name":"Center Vertical","rings":[2,3,9,10]},
       {"id":"wings","name":"Wings","rings":[7,8,14,15]}
     ]
+  },
+  {
+    "id": "barrel_weave",
+    "name": "Barrel Weave",
+    "subtitle": "Totally tubular",
+    "file": "barrel_weave_earring.glb",
+    "thumbnail": "barrel_weave.webp",
+    "postUrl": "https://www.mckaymaille.ca/2023/03/19/barrel-weave.html",
+    "rings": 16,
+    "groups": [
+      {"id":"barrel-horizontal","name":"Barrel Horizontal","rings":[3,4,8,9,13,14]},
+      {"id":"barrel-vertical","name":"Barrel Vertical","rings":[1,2,6,7,11,12]},
+      {"id":"connectors","name":"Connectors","rings":[0,5,10,15]}
+    ]
   }
 ]
